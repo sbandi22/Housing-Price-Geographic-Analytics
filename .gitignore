@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+.Python
+*.so
+build/
+dist/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual envs
+.venv/
+venv/
+env/
+.python-version
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# Data (keep samples only)
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/raw/sample_housing.csv
+!data/raw/sample_demographics.csv
+!data/raw/sample_economic.csv
+!data/external/us_states.geojson
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# Reports / artifacts
+reports/output/*
+!reports/output/.gitkeep
+models/artifacts/*
+!models/artifacts/.gitkeep
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+*.log
+logs/
+
+# DB dumps
+*.sql.gz
+*.dump
