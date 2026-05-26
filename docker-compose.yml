@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.4
+    container_name: housing_postgres
+    environment:
+      POSTGRES_USER: housing_admin
+      POSTGRES_PASSWORD: housing_pass
+      POSTGRES_DB: housing
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+      - ./sql/views.sql:/docker-entrypoint-initdb.d/03_views.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U housing_admin -d housing']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: housing_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: housing
+      DB_USER: housing_admin
+      DB_PASSWORD: housing_pass
+    volumes:
+      - .:/app
+    ports:
+      - '8050:8050'   # Dash dashboard
+      - '8888:8888'   # Jupyter
+    command: python dashboards/app.py
+
+volumes:
+  postgres_data:
